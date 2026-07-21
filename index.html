@@ -1,0 +1,603 @@
+<title>Bethesda Workflows — Missed Lead Recovery for Med Spas</title>
+<style>
+  :root {
+    --ground: #F4F6F3;
+    --surface: #FFFFFF;
+    --surface-2: #EBEFEA;
+    --ink: #22312C;
+    --ink-soft: #55645D;
+    --line: #DDE3DC;
+    --accent: #2F6B52;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #E3EFE8;
+    --missed: #C2493E;
+    --missed-soft: #F7E7E4;
+    --brass: #B08540;
+    --bubble-in: #E9E9EB;
+    --bubble-in-ink: #1C1C1E;
+    --bubble-out: #2F6B52;
+    --bubble-out-ink: #FFFFFF;
+    --phone-body: #101413;
+    --phone-screen: #FFFFFF;
+    --shadow: 0 24px 60px -24px rgba(34, 49, 44, 0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #131C17;
+      --surface: #1B2620;
+      --surface-2: #223029;
+      --ink: #E7EEE9;
+      --ink-soft: #9FB0A7;
+      --line: #2C3B33;
+      --accent: #62B58E;
+      --accent-ink: #0E1A14;
+      --accent-soft: #21382D;
+      --missed: #E07A6E;
+      --missed-soft: #3A2521;
+      --brass: #D2A863;
+      --bubble-in: #2A3630;
+      --bubble-in-ink: #E7EEE9;
+      --bubble-out: #2F8A62;
+      --bubble-out-ink: #FFFFFF;
+      --phone-body: #000000;
+      --phone-screen: #161B18;
+      --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F4F6F3;
+    --surface: #FFFFFF;
+    --surface-2: #EBEFEA;
+    --ink: #22312C;
+    --ink-soft: #55645D;
+    --line: #DDE3DC;
+    --accent: #2F6B52;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #E3EFE8;
+    --missed: #C2493E;
+    --missed-soft: #F7E7E4;
+    --brass: #B08540;
+    --bubble-in: #E9E9EB;
+    --bubble-in-ink: #1C1C1E;
+    --bubble-out: #2F6B52;
+    --bubble-out-ink: #FFFFFF;
+    --phone-body: #101413;
+    --phone-screen: #FFFFFF;
+    --shadow: 0 24px 60px -24px rgba(34, 49, 44, 0.35);
+  }
+  :root[data-theme="dark"] {
+    --ground: #131C17;
+    --surface: #1B2620;
+    --surface-2: #223029;
+    --ink: #E7EEE9;
+    --ink-soft: #9FB0A7;
+    --line: #2C3B33;
+    --accent: #62B58E;
+    --accent-ink: #0E1A14;
+    --accent-soft: #21382D;
+    --missed: #E07A6E;
+    --missed-soft: #3A2521;
+    --brass: #D2A863;
+    --bubble-in: #2A3630;
+    --bubble-in-ink: #E7EEE9;
+    --bubble-out: #2F8A62;
+    --bubble-out-ink: #FFFFFF;
+    --phone-body: #000000;
+    --phone-screen: #161B18;
+    --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Avenir Next", Avenir, Seravek, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .display {
+    font-family: Palatino, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-weight: 600;
+    line-height: 1.12;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 0.9rem;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.4rem; }
+  section { padding: 4.5rem 0; }
+  a { color: var(--accent); }
+
+  /* ---------- header ---------- */
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 0;
+  }
+  .wordmark { display: flex; flex-direction: column; line-height: 1.15; }
+  .wordmark .bw-name {
+    font-family: Palatino, "Iowan Old Style", Georgia, serif;
+    font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;
+  }
+  .wordmark .bw-tag {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .btn {
+    display: inline-block; text-decoration: none; border-radius: 999px;
+    padding: 0.72rem 1.4rem; font-weight: 600; font-size: 0.95rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:focus-visible, a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px;
+  }
+  .btn-solid { background: var(--accent); color: var(--accent-ink); }
+  .btn-solid:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -8px var(--accent); }
+  .btn-ghost { color: var(--ink); border: 1px solid var(--line); background: var(--surface); }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 3.5rem 0 5rem; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem; align-items: center;
+  }
+  .hero h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); margin: 0 0 1.2rem; }
+  .hero h1 .missed-word { color: var(--missed); font-style: italic; }
+  .hero p.lede {
+    font-size: 1.12rem; color: var(--ink-soft); max-width: 34rem; margin: 0 0 1.8rem;
+  }
+  .hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+  .hero-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 1rem; }
+
+  /* ---------- phone ---------- */
+  .demo-col { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
+  .phone {
+    width: 320px; max-width: 100%;
+    background: var(--phone-body);
+    border-radius: 44px; padding: 12px;
+    box-shadow: var(--shadow);
+  }
+  .phone-screen {
+    background: var(--phone-screen);
+    border-radius: 34px; overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 560px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7rem 1.4rem 0.4rem;
+    font-size: 0.8rem; font-weight: 600;
+  }
+  .thread-header {
+    text-align: center; padding: 0.3rem 1rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .thread-header .contact { font-size: 0.82rem; font-weight: 600; }
+  .thread-header .number { font-size: 0.68rem; color: var(--ink-soft); }
+  .thread {
+    flex: 1; overflow-y: auto; padding: 0.9rem 0.9rem 1.1rem;
+    display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .sys-note {
+    align-self: center; text-align: center;
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--missed); background: var(--missed-soft);
+    border-radius: 999px; padding: 0.3rem 0.85rem;
+    margin: 0.3rem 0;
+  }
+  .sys-note.ok { color: var(--accent); background: var(--accent-soft); }
+  .stamp {
+    align-self: center; font-size: 0.66rem; color: var(--ink-soft);
+    margin: 0.2rem 0;
+  }
+  .bubble {
+    max-width: 78%; padding: 0.55rem 0.85rem;
+    border-radius: 18px; font-size: 0.88rem; line-height: 1.4;
+  }
+  .bubble.in  { align-self: flex-start; background: var(--bubble-in);  color: var(--bubble-in-ink);  border-bottom-left-radius: 5px; }
+  .bubble.out { align-self: flex-end;   background: var(--bubble-out); color: var(--bubble-out-ink); border-bottom-right-radius: 5px; }
+  .bubble.out a { color: inherit; font-weight: 600; }
+  .typing {
+    align-self: flex-start; background: var(--bubble-in);
+    border-radius: 18px; border-bottom-left-radius: 5px;
+    padding: 0.65rem 0.9rem; display: flex; gap: 4px;
+  }
+  .typing.out { align-self: flex-end; background: var(--bubble-out); border-bottom-left-radius: 18px; border-bottom-right-radius: 5px; }
+  .typing i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ink-soft); opacity: 0.6;
+    animation: blink 1s infinite;
+  }
+  .typing.out i { background: var(--bubble-out-ink); }
+  .typing i:nth-child(2) { animation-delay: 0.18s; }
+  .typing i:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes blink { 0%, 60%, 100% { opacity: 0.35; } 30% { opacity: 1; } }
+
+  .msg-enter { animation: msg-in 0.28s ease both; }
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .msg-enter { animation: none; }
+    .typing i { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  .replay {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 999px; padding: 0.5rem 1.1rem; font: inherit; font-size: 0.85rem;
+    font-weight: 600; cursor: pointer;
+  }
+  .replay:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- owner card ---------- */
+  .owner-card {
+    width: 320px; max-width: 100%;
+    background: var(--surface); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 14px; padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .owner-card.show { opacity: 1; transform: translateY(0); }
+  .owner-card .oc-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
+  }
+  .owner-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.8rem; }
+  .owner-card dt { color: var(--ink-soft); }
+  .owner-card dd { margin: 0; font-weight: 600; }
+
+  /* ---------- sections ---------- */
+  .section-head { max-width: 40rem; margin-bottom: 2.4rem; }
+  .section-head h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.6rem; }
+  .section-head p { color: var(--ink-soft); margin: 0; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .step {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.3rem 1.2rem;
+  }
+  .step .step-time {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--brass);
+    font-variant-numeric: tabular-nums;
+  }
+  .step h3 { font-size: 1rem; margin: 0.4rem 0 0.35rem; }
+  .step p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+  .step.missed-step { border-left: 4px solid var(--missed); }
+  .step.missed-step .step-time { color: var(--missed); }
+
+  .included { background: var(--surface-2); border-block: 1px solid var(--line); }
+  .included-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .inc {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.2rem;
+  }
+  .inc h3 { font-size: 0.98rem; margin: 0 0 0.3rem; }
+  .inc p { font-size: 0.87rem; color: var(--ink-soft); margin: 0; }
+
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; align-items: stretch; }
+  .tier {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 1.6rem 1.5rem;
+    display: flex; flex-direction: column;
+  }
+  .tier.featured { border-color: var(--accent); box-shadow: 0 16px 40px -24px var(--accent); }
+  .tier .tier-name { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-soft); }
+  .tier.featured .tier-name { color: var(--accent); }
+  .tier .price { font-family: Palatino, "Iowan Old Style", Georgia, serif; font-size: 2rem; font-weight: 600; margin: 0.5rem 0 0; font-variant-numeric: tabular-nums; }
+  .tier .setup { font-size: 0.85rem; color: var(--ink-soft); margin: 0 0 1rem; }
+  .tier ul { list-style: none; margin: 0 0 1.4rem; padding: 0; font-size: 0.88rem; display: grid; gap: 0.45rem; }
+  .tier li { padding-left: 1.3rem; position: relative; }
+  .tier li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .tier .btn { margin-top: auto; text-align: center; }
+
+  .local-band { background: var(--surface); border-block: 1px solid var(--line); }
+  .local-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .local-grid p { color: var(--ink-soft); }
+
+  .final-cta { text-align: center; padding: 5.5rem 0; }
+  .final-cta h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); margin: 0 0 0.8rem; }
+  .final-cta p { color: var(--ink-soft); max-width: 32rem; margin: 0 auto 1.8rem; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 1.6rem 0 2.2rem;
+    font-size: 0.82rem; color: var(--ink-soft);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid, .local-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .included-grid, .tiers { grid-template-columns: 1fr; }
+    section { padding: 3.2rem 0; }
+  }
+  @media (max-width: 480px) {
+    .steps { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="wordmark">
+      <span class="bw-name">Bethesda Workflows</span>
+      <span class="bw-tag">Missed Lead Recovery</span>
+    </div>
+    <a class="btn btn-solid" href="mailto:ax5nat@icloud.com?subject=Free%20demo%20for%20my%20clinic">Book a free demo</a>
+  </header>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">For med spas &amp; aesthetic clinics in the DMV</p>
+          <h1 class="display">The 7:42&nbsp;PM caller books <em class="missed-word">somewhere</em> — make sure it's with you.</h1>
+          <p class="lede">When someone calls after close or while your front desk is with a client, they don't wait — they call the next clinic. Bethesda Workflows installs a system that texts them back instantly, answers the basics, and walks them to your booking page.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-solid" href="mailto:ax5nat@icloud.com?subject=Free%20demo%20for%20my%20clinic">Book a free demo</a>
+            <a class="btn btn-ghost" href="#how">See how it works</a>
+          </div>
+          <p class="hero-note">Watch the phone → this is exactly what your missed caller experiences.</p>
+        </div>
+        <div class="demo-col">
+          <div class="phone" aria-label="Simulated text conversation between a med spa's automated system and a missed caller">
+            <div class="phone-screen">
+              <div class="status-bar"><span>7:42</span><span>▪▪▪ ⌁ ▮</span></div>
+              <div class="thread-header">
+                <div class="contact">Radiance Med Spa</div>
+                <div class="number">(301) 555‑0114</div>
+              </div>
+              <div class="thread" id="thread" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="owner-card" id="ownerCard" aria-live="polite">
+            <div class="oc-label">Sent to the owner</div>
+            <dl>
+              <dt>Lead</dt><dd>Jessica M.</dd>
+              <dt>Wants</dt><dd>Botox — first visit</dd>
+              <dt>Status</dt><dd>Booked Thu 3:30 PM</dd>
+              <dt>Source</dt><dd>Missed call, after hours</dd>
+              <dt>First reply</dt><dd>8 seconds</dd>
+            </dl>
+          </div>
+          <button class="replay" id="replayBtn" type="button">↺ Replay the demo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2 class="display">From missed call to booked consult in four minutes</h2>
+        <p>No app for your staff to learn. The system runs quietly behind your existing phone number, website form, and booking link.</p>
+      </div>
+      <div class="steps">
+        <div class="step missed-step">
+          <span class="step-time">7:42 PM</span>
+          <h3>A call goes unanswered</h3>
+          <p>After hours, or your front desk is mid‑treatment. Normally this lead is gone.</p>
+        </div>
+        <div class="step">
+          <span class="step-time">7:42 PM · +8 sec</span>
+          <h3>They get an instant text</h3>
+          <p>A friendly message from your clinic's number, so the conversation starts before they call a competitor.</p>
+        </div>
+        <div class="step">
+          <span class="step-time">7:43 PM</span>
+          <h3>The system qualifies them</h3>
+          <p>What service, first visit or returning, preferred timing — the basics your staff would ask.</p>
+        </div>
+        <div class="step">
+          <span class="step-time">7:46 PM</span>
+          <h3>They book, you get a summary</h3>
+          <p>The lead gets your real booking link. You get a clean summary of who they are and what they want.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="included">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What's included</p>
+        <h2 class="display">One system, every way leads slip away</h2>
+        <p>Every plan covers the core leaks. Higher plans add follow‑up that fills your calendar from clients you already have.</p>
+      </div>
+      <div class="included-grid">
+        <div class="inc"><h3>Missed‑call text‑back</h3><p>Every unanswered call gets an instant text from your business number.</p></div>
+        <div class="inc"><h3>After‑hours response</h3><p>Evenings, weekends, holidays — leads get answered the moment they reach out.</p></div>
+        <div class="inc"><h3>Website form follow‑up</h3><p>Form submissions get a text within seconds instead of sitting in an inbox overnight.</p></div>
+        <div class="inc"><h3>Lead qualification</h3><p>The system asks the basic questions so conversations arrive ready to book.</p></div>
+        <div class="inc"><h3>Booking link handoff</h3><p>Qualified leads are walked straight to your existing booking page.</p></div>
+        <div class="inc"><h3>Owner lead summaries</h3><p>A clean recap of every recovered lead — who, what, when — sent to you or your staff.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section id="pricing">
+      <div class="section-head">
+        <p class="eyebrow">Pricing</p>
+        <h2 class="display">Pays for itself with one recovered client</h2>
+        <p>A single new Botox or laser package client is typically worth more than a month of any plan. No long contracts — stay because it works.</p>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <span class="tier-name">Starter</span>
+          <p class="price">$297<span style="font-size:1rem;">/mo</span></p>
+          <p class="setup">+ $500 one‑time setup</p>
+          <ul>
+            <li>Missed‑call text‑back</li>
+            <li>After‑hours response</li>
+            <li>Booking link handoff</li>
+            <li>Lead summaries by email</li>
+          </ul>
+          <a class="btn btn-ghost" href="mailto:ax5nat@icloud.com?subject=Starter%20plan%20demo">Request a demo</a>
+        </div>
+        <div class="tier featured">
+          <span class="tier-name">Standard</span>
+          <p class="price">$397<span style="font-size:1rem;">/mo</span></p>
+          <p class="setup">+ $750 one‑time setup</p>
+          <ul>
+            <li>Everything in Starter</li>
+            <li>Website form follow‑up</li>
+            <li>Lead qualification questions</li>
+            <li>No‑show &amp; rebooking reminders</li>
+          </ul>
+          <a class="btn btn-solid" href="mailto:ax5nat@icloud.com?subject=Standard%20plan%20demo">Request a demo</a>
+        </div>
+        <div class="tier">
+          <span class="tier-name">Premium</span>
+          <p class="price">$697<span style="font-size:1rem;">/mo</span></p>
+          <p class="setup">+ $1,000 one‑time setup</p>
+          <ul>
+            <li>Everything in Standard</li>
+            <li>Instagram &amp; Google message follow‑up</li>
+            <li>Review request follow‑up</li>
+            <li>Monthly recovered‑lead report</li>
+          </ul>
+          <a class="btn btn-ghost" href="mailto:ax5nat@icloud.com?subject=Premium%20plan%20demo">Request a demo</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="local-band">
+    <div class="wrap local-grid">
+      <div>
+        <p class="eyebrow">Local &amp; direct</p>
+        <h2 class="display">Based in Bethesda. You text me, I answer.</h2>
+      </div>
+      <div>
+        <p>Bethesda Workflows is a local operation, not a software company with a support queue. Setup takes days, not months. If something needs adjusting — the wording of a message, the questions asked, where summaries go — you have a direct line to the person who built it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="final-cta">
+      <h2 class="display">See it running on your clinic's number</h2>
+      <p>The demo takes 15 minutes. I'll show you the exact texts your missed callers would receive, customized to your services and booking page.</p>
+      <a class="btn btn-solid" href="mailto:ax5nat@icloud.com?subject=Free%20demo%20for%20my%20clinic">Book a free demo</a>
+    </section>
+
+    <footer>
+      <span>© 2026 Bethesda Workflows · Bethesda, MD</span>
+      <span>Demo conversation is simulated for illustration.</span>
+    </footer>
+  </div>
+</main>
+
+<script>
+  (function () {
+    var thread = document.getElementById("thread");
+    var ownerCard = document.getElementById("ownerCard");
+    var replayBtn = document.getElementById("replayBtn");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var script = [
+      { kind: "note",  cls: "sys-note",     text: "Missed call · 7:42 PM · after close" },
+      { kind: "msg",   dir: "out", delay: 900,  text: "Hi! This is Radiance Med Spa — so sorry we missed your call. How can we help? Reply here and we'll get you taken care of. 💬" },
+      { kind: "msg",   dir: "in",  delay: 1600, text: "Hi, I was calling about Botox pricing for a first visit" },
+      { kind: "msg",   dir: "out", delay: 1400, text: "Great question! First visits start with a free 15‑minute consult so our injector can give you exact pricing. Would this be your first time getting Botox?" },
+      { kind: "msg",   dir: "in",  delay: 1200, text: "Yes, first time" },
+      { kind: "msg",   dir: "out", delay: 1500, text: "Perfect — you can grab a consult time that works for you here: radiancespa.com/book. Or if you'd rather chat first, I can have our team call you tomorrow morning." },
+      { kind: "msg",   dir: "in",  delay: 1800, text: "Just booked Thursday at 3:30 🙂" },
+      { kind: "msg",   dir: "out", delay: 1100, text: "You're all set, Jessica! We'll text you a reminder the day before. See you Thursday! ✨" },
+      { kind: "note",  cls: "sys-note ok",   text: "Lead recovered · summary sent to owner" }
+    ];
+
+    var timers = [];
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function after(ms, fn) { timers.push(setTimeout(fn, ms)); }
+
+    function addNote(item) {
+      var el = document.createElement("div");
+      el.className = item.cls + " msg-enter";
+      el.textContent = item.text;
+      thread.appendChild(el);
+      thread.scrollTop = thread.scrollHeight;
+    }
+    function addBubble(item) {
+      var el = document.createElement("div");
+      el.className = "bubble " + item.dir + " msg-enter";
+      el.textContent = item.text;
+      thread.appendChild(el);
+      thread.scrollTop = thread.scrollHeight;
+    }
+    function addTyping(dir) {
+      var el = document.createElement("div");
+      el.className = "typing " + dir;
+      el.innerHTML = "<i></i><i></i><i></i>";
+      thread.appendChild(el);
+      thread.scrollTop = thread.scrollHeight;
+      return el;
+    }
+
+    function playInstant() {
+      script.forEach(function (item) {
+        item.kind === "note" ? addNote(item) : addBubble(item);
+      });
+      ownerCard.classList.add("show");
+    }
+
+    function playFrom(i) {
+      if (i >= script.length) {
+        after(500, function () { ownerCard.classList.add("show"); });
+        return;
+      }
+      var item = script[i];
+      if (item.kind === "note") {
+        addNote(item);
+        after(700, function () { playFrom(i + 1); });
+        return;
+      }
+      var typingEl = addTyping(item.dir);
+      after(item.delay, function () {
+        typingEl.remove();
+        addBubble(item);
+        after(450, function () { playFrom(i + 1); });
+      });
+    }
+
+    function play() {
+      clearTimers();
+      thread.innerHTML = "";
+      ownerCard.classList.remove("show");
+      if (reduced) { playInstant(); return; }
+      after(600, function () { playFrom(0); });
+    }
+
+    var started = false;
+    if ("IntersectionObserver" in window && !reduced) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting && !started) {
+          started = true;
+          play();
+          io.disconnect();
+        }
+      }, { threshold: 0.35 });
+      io.observe(document.querySelector(".phone"));
+    } else {
+      started = true;
+      play();
+    }
+
+    replayBtn.addEventListener("click", play);
+  })();
+</script>
